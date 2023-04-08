@@ -357,7 +357,7 @@ let targets: [Target] = amplifyTargets
     + predictionsTargets
 
 let package = Package(
-    name: "Amplify",
+    name: "Jackaroo82Amplify",
     platforms: platforms,
     products: [
         .library(
