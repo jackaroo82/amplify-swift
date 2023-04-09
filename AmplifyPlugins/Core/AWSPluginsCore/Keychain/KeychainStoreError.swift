@@ -25,6 +25,9 @@ public enum KeychainStoreError {
 
     /// Unable to find the keychain item
     case itemNotFound
+    
+    /// Using accessGroup and entitlement not set
+    case missingEntitlement
 
     /// Caused trying to perform a keychain operation, examples, missing entitlements, missing required attributes, etc
     case securityError(OSStatus)
@@ -59,13 +62,15 @@ extension KeychainStoreError: AmplifyError {
             return "Unable to find the keychain item"
         case .configuration(let message):
             return message
+        case .missingEntitlement:
+            return "You need to enable the KeySharing entitlement"
         }
     }
 
     /// Recovery Suggestion
     public var recoverySuggestion: RecoverySuggestion {
         switch self {
-        case .unknown, .conversionError, .securityError, .itemNotFound, .codingError, .configuration:
+        case .unknown, .conversionError, .securityError, .itemNotFound, .codingError, .configuration, .missingEntitlement:
             return AmplifyErrorMessages.shouldNotHappenReportBugToAWS()
         }
     }
@@ -96,6 +101,8 @@ extension KeychainStoreError: Equatable {
         case (.itemNotFound, .itemNotFound):
             return true
         case (.securityError, .securityError):
+            return true
+        case (.missingEntitlement, .missingEntitlement):
             return true
         default:
             return false

@@ -117,6 +117,8 @@ public struct KeychainStore: KeychainStoreBehavior {
             return data
         case errSecItemNotFound:
             throw KeychainStoreError.itemNotFound
+        case errSecMissingEntitlement:
+            throw KeychainStoreError.missingEntitlement
         default:
             throw KeychainStoreError.securityError(status)
         }
