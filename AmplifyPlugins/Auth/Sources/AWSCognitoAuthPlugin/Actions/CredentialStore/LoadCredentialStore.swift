@@ -30,7 +30,8 @@ struct LoadCredentialStore: Action {
         logVerbose("\(#fileID) Retreiving credential \(credentialStoreType)",
                    environment: environment)
         let credentialStoreEnvironment = credentialEnvironment.credentialStoreEnvironment
-        let amplifyCredentialStore = credentialStoreEnvironment.amplifyCredentialStoreFactory()
+        let accessGroup: String? = credentialEnvironment.getCredentialsStoreAccessGroup()
+        let amplifyCredentialStore = credentialStoreEnvironment.amplifyCredentialStoreFactory(accessGroup)
 
         do {
             let credentialStoreData: CredentialStoreData

@@ -130,7 +130,7 @@ extension AWSCognitoAuthPlugin {
         return analyticsHandler
     }
 
-    private func makeCredentialStore() -> AmplifyAuthCredentialStoreBehavior {
+    private func makeCredentialStore(_ accessGroup: String?) -> AmplifyAuthCredentialStoreBehavior {
         AWSCognitoAuthCredentialStore(authConfiguration: authConfiguration)
     }
 
@@ -217,11 +217,15 @@ extension AWSCognitoAuthPlugin {
                                       cognitoIdentityFactory: makeIdentityClient)
     }
 
-    private func credentialStoreEnvironment(authConfiguration: AuthConfiguration) -> CredentialEnvironment {
+    private func credentialStoreEnvironment(authConfiguration: AuthConfiguration) ->
+    // TODO: Add a nonGroupSharedAmplifyCredentialStoreFactory and
+    // if accessGroup set on config then set one with and one without the access group
+    // and then migrate across
+    CredentialEnvironment {
         CredentialEnvironment(
             authConfiguration: authConfiguration,
             credentialStoreEnvironment: BasicCredentialStoreEnvironment(
-                amplifyCredentialStoreFactory: makeCredentialStore,
+                amplifyCredentialStoreFactory: makeCredentialStore, nonSharedAmplifyCredentialStoreFactory: makeCredentialStore,
                 legacyKeychainStoreFactory: makeLegacyKeychainStore(service:)
             ), logger: log
         )

@@ -52,12 +52,13 @@ struct MigrateLegacyCredentialStore: Action {
         let credentialStoreEnvironment = credentialEnvironment.credentialStoreEnvironment
         let authConfiguration = credentialEnvironment.authConfiguration
 
-        let amplifyCredentialStore = credentialStoreEnvironment.amplifyCredentialStoreFactory()
+        let accessGroup: String? = credentialEnvironment.getCredentialsStoreAccessGroup()
+        let amplifyCredentialStore = credentialStoreEnvironment.amplifyCredentialStoreFactory(accessGroup)
 
         var identityId: String?
         var awsCredentials: AuthAWSCognitoCredentials?
         migrateDeviceDetails(from: credentialStoreEnvironment,
-                             with: authConfiguration)
+                             with: authConfiguration, accessGroup: accessGroup)
         let userPoolTokens = try? getUserPoolTokens(from: credentialStoreEnvironment,
                                                     with: authConfiguration)
 
@@ -138,7 +139,7 @@ struct MigrateLegacyCredentialStore: Action {
 
     private func migrateDeviceDetails(
         from credentialStoreEnvironment: CredentialStoreEnvironment,
-        with authConfiguration: AuthConfiguration) {
+        with authConfiguration: AuthConfiguration, accessGroup: String?) {
             guard let bundleIdentifier = Bundle.main.bundleIdentifier,
                   let userPoolConfig = authConfiguration.getUserPoolConfiguration()
             else {
@@ -185,7 +186,7 @@ struct MigrateLegacyCredentialStore: Action {
                 )
             )
 
-            let amplifyCredentialStore = credentialStoreEnvironment.amplifyCredentialStoreFactory()
+            let amplifyCredentialStore = credentialStoreEnvironment.amplifyCredentialStoreFactory(accessGroup)
             if let deviceId = deviceId,
                let deviceSecret = deviceSecret,
                let deviceGroup = deviceGroup {

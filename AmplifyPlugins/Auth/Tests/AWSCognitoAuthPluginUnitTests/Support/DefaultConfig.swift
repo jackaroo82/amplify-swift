@@ -109,7 +109,7 @@ enum Defaults {
         return .userPoolsAndIdentityPools(userPoolConfigData, identityConfigDate)
     }
 
-    static func makeAmplifyStore() -> AmplifyAuthCredentialStoreBehavior {
+    static func makeAmplifyStore(_ accessGroup: String?) -> AmplifyAuthCredentialStoreBehavior {
         return MockAmplifyStore()
     }
 
@@ -118,13 +118,13 @@ enum Defaults {
     }
 
     static func makeDefaultCredentialStoreEnvironment(
-        amplifyStoreFactory: @escaping () -> AmplifyAuthCredentialStoreBehavior = makeAmplifyStore,
+        amplifyStoreFactory: @escaping (_ accessGroup: String?) -> AmplifyAuthCredentialStoreBehavior = makeAmplifyStore,
         legacyStoreFactory: @escaping (String) -> KeychainStoreBehavior = makeLegacyStore(service: )
     ) -> CredentialEnvironment {
         CredentialEnvironment(
             authConfiguration: makeDefaultAuthConfigData(),
             credentialStoreEnvironment: BasicCredentialStoreEnvironment(
-                amplifyCredentialStoreFactory: amplifyStoreFactory,
+                amplifyCredentialStoreFactory: amplifyStoreFactory, nonSharedAmplifyCredentialStoreFactory: amplifyStoreFactory,
                 legacyKeychainStoreFactory: legacyStoreFactory
             ),
             logger: Amplify.Logging.logger(forCategory: "awsCognitoAuthPluginTest")

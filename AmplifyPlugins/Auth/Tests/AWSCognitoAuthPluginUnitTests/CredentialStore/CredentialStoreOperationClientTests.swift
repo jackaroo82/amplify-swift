@@ -18,7 +18,7 @@ class CredentialStoreOperationClientTests: XCTestCase {
         let credentialEnvironment = CredentialEnvironment(
             authConfiguration: Defaults.makeAuthConfiguration(),
             credentialStoreEnvironment: BasicCredentialStoreEnvironment(
-                amplifyCredentialStoreFactory: Defaults.makeAmplifyStore,
+                amplifyCredentialStoreFactory: Defaults.makeAmplifyStore, nonSharedAmplifyCredentialStoreFactory: Defaults.makeAmplifyStore,
                 legacyKeychainStoreFactory: Defaults.makeLegacyStore(service:)
             ),
             logger: Amplify.Logging.logger(forCategory: "awsCognitoAuthPluginTest")

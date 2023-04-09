@@ -95,7 +95,7 @@ struct MockedAuthCognitoPluginHelper {
         MockAnalyticsHandler()
     }
 
-    private func makeCredentialStore() -> AmplifyAuthCredentialStoreBehavior {
+    private func makeCredentialStore(_ accessGroup: String?) -> AmplifyAuthCredentialStoreBehavior {
         MockAmplifyStore()
     }
 
@@ -192,7 +192,7 @@ struct MockedAuthCognitoPluginHelper {
         return CredentialEnvironment(
             authConfiguration: authConfiguration,
             credentialStoreEnvironment: BasicCredentialStoreEnvironment(
-                amplifyCredentialStoreFactory: makeCredentialStore,
+                amplifyCredentialStoreFactory: makeCredentialStore, nonSharedAmplifyCredentialStoreFactory: makeCredentialStore,
                 legacyKeychainStoreFactory: makeLegacyKeychainStore(service:)
             ),
             logger: log

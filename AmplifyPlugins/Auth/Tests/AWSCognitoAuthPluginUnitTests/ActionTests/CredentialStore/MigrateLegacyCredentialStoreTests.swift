@@ -53,7 +53,7 @@ class MigrateLegacyCredentialStoreTests: XCTestCase {
             }
         )
 
-        let amplifyCredentialStoreFactory: AmplifyStoreFactory = {
+        let amplifyCredentialStoreFactory: AmplifyStoreFactory = {accessGroup in
             return mockAmplifyCredentialStoreBehavior
         }
         let authConfig = AuthConfiguration.userPoolsAndIdentityPools(
@@ -61,7 +61,7 @@ class MigrateLegacyCredentialStoreTests: XCTestCase {
             Defaults.makeIdentityConfigData())
 
         let credentialStoreEnv = BasicCredentialStoreEnvironment(
-            amplifyCredentialStoreFactory: amplifyCredentialStoreFactory,
+            amplifyCredentialStoreFactory: amplifyCredentialStoreFactory, nonSharedAmplifyCredentialStoreFactory: amplifyCredentialStoreFactory,
             legacyKeychainStoreFactory: legacyKeychainStoreFactory)
 
         let environment = CredentialEnvironment(
@@ -96,7 +96,7 @@ class MigrateLegacyCredentialStoreTests: XCTestCase {
         }
         let mockAmplifyCredentialStoreBehavior = MockAmplifyCredentialStoreBehavior()
 
-        let amplifyCredentialStoreFactory: AmplifyStoreFactory = {
+        let amplifyCredentialStoreFactory: AmplifyStoreFactory = {accessGroup in
             return mockAmplifyCredentialStoreBehavior
         }
         let authConfig = AuthConfiguration.userPoolsAndIdentityPools(
@@ -104,7 +104,7 @@ class MigrateLegacyCredentialStoreTests: XCTestCase {
             Defaults.makeIdentityConfigData())
 
         let credentialStoreEnv = BasicCredentialStoreEnvironment(
-            amplifyCredentialStoreFactory: amplifyCredentialStoreFactory,
+            amplifyCredentialStoreFactory: amplifyCredentialStoreFactory, nonSharedAmplifyCredentialStoreFactory: amplifyCredentialStoreFactory,
             legacyKeychainStoreFactory: legacyKeychainStoreFactory)
 
         let environment = CredentialEnvironment(
