@@ -165,6 +165,8 @@ public struct KeychainStore: KeychainStoreBehavior {
             if addStatus != errSecSuccess {
                 throw KeychainStoreError.securityError(addStatus)
             }
+        case errSecMissingEntitlement:
+            throw KeychainStoreError.missingEntitlement
         default:
             throw KeychainStoreError.securityError(fetchStatus)
         }
